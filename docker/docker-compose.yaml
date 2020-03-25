@@ -1,0 +1,12 @@
+version: "3.6"
+
+services:
+  nginx-streaming:
+    build: .
+    container_name: nginx-streaming
+    command: filename
+    ports:
+      - "127.0.0.1:1935:1935"
+      - "127.0.0.1:8484:8080"
+    volumes:
+      - ./videos:/videos
