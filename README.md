@@ -4,8 +4,8 @@ Private video streaming via RTMP protocol
 
 ### Installation
 
-Producer side : `sudo apt-get install ffmpeg`
-RTMP server side : https://github.com/arut/nginx-rtmp-module/wiki/Getting-started-with-nginx-rtmp
+- Producer side : `sudo apt-get install ffmpeg`
+- RTMP server side : https://github.com/arut/nginx-rtmp-module/wiki/Getting-started-with-nginx-rtmp
 
 ### URL
 

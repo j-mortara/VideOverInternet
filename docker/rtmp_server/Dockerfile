@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 RUN apt-get update \
-	&& apt-get install build-essential libpcre3 libpcre3-dev libssl-dev git zlib1g-dev wget ffmpeg -y \
+	&& apt-get install build-essential libpcre3 libpcre3-dev libssl-dev git zlib1g-dev wget -y \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& mkdir /build \
 	&& cd /build \
@@ -10,7 +10,7 @@ RUN apt-get update \
 	&& cd /build/nginx-1.14.1 \
 	&& ./configure --with-http_ssl_module --add-module=../nginx-rtmp-module \
 	&& make \
-	&& make install
+	&& make install \
+	&& apt-get purge --auto-remove build-essential git wget -y
 COPY nginx.conf /usr/local/nginx/conf/nginx.conf
-COPY run.sh run.sh
-ENTRYPOINT ["bash", "run.sh"]
+CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]

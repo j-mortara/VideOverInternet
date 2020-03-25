@@ -1,12 +1,18 @@
 version: "3.6"
 
 services:
-  nginx-streaming:
-    build: .
-    container_name: nginx-streaming
-    command: filename
+  rtmp_nginx:
+    build: rtmp_server/
+    container_name: streaming_server
     ports:
       - "127.0.0.1:1935:1935"
-      - "127.0.0.1:8484:8080"
+  rtmp_producer:
+    build: producer/
+    container_name: rtmp_producer
+    command: Yoru.mp4
+    ports:
+      - "1935"
     volumes:
-      - ./videos:/videos
+      - ../videos:/videos
+    depends_on:
+      - rtmp_nginx
