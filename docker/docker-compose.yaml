@@ -9,10 +9,10 @@ services:
   rtmp_producer:
     build: producer/
     container_name: rtmp_producer
-    command: Yoru.mp4
+    command: ${FILENAME}
     ports:
       - "1935"
     volumes:
-      - ../videos:/videos
+      - ${VOLUME_PATH}:/videos
     depends_on:
       - rtmp_nginx

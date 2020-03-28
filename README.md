@@ -2,6 +2,45 @@
 
 Private video streaming via RTMP protocol
 
+## Dockerized setup
+
+The `docker` directory contains two subdirectories:
+- `producer` containing the Docker files for the container producing the video stream
+- `rtmp_server` containing the Docker files for the container running an nginx server being a proxy
+
+### Build and deployment using Docker Compose
+
+```bash
+cd docker
+docker-compose build
+VOLUME_PATH=<directory_containing_video> FILENAME=<video_path_in_directory> docker-compose up --abort-on-container-exit
+```
+
+The `docker-compose.yaml` file is useful to deploy locally for test purpose.
+However, you might want to deploy the nginx server on another instance for it to be accessible remotely.
+
+Here are the instructions to deploy the producer on the machine containing the files that you want to stream, and the nginx server on another machine.
+
+### Build and deployment of the nginx server
+
+In the `rtmp_server` directory:
+```bash
+docker build -t rtmp_server .
+docker run --rm -p 127.0.0.1:1935:1935 rtmp_server
+```
+
+### Build and deployment of the producer
+
+In the `producer` directory:
+```bash
+docker build -t rtmp_producer .
+docker run -d -p 127.0.0.1:1935:1935 -v <directory_containing_video>:/videos -e "SERVER_URL=<rtmp_server_url>" rtmp_producer <video_path_in_directory>
+```
+
+
+
+## Manual setup
+
 ### Installation
 
 - Producer side : `sudo apt-get install ffmpeg`
@@ -27,6 +66,6 @@ Private video streaming via RTMP protocol
 
 **NOTE 2**: remove `-vf subtitles=file.mkv` if your file does not have subtitles.
 
-### TODO
+## TODO
 
 - Select one particular subtitles track
